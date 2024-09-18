@@ -1,6 +1,7 @@
 package service;
 
 import dto.ObraDTO;
+import jakarta.transaction.Transactional;
 import model.Obra;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,20 +19,20 @@ public class ObraService {
     @Autowired
     private ObraRepository obraRepository;
 
+
+
+    @Transactional
     public Obra criarObra(ObraDTO obraDTO) {
-        // Verifica se já existe uma obra com o contrato fornecido
         obraRepository.findByContrato(obraDTO.getContrato())
                 .ifPresent(obra -> {
                     throw new IllegalArgumentException("Contrato já cadastrado");
                 });
 
-        // Cria e salva a nova obra
         Obra novaObra = new Obra(obraDTO.getNome(), obraDTO.getContrato(), obraDTO.getOrcamento());
         return obraRepository.save(novaObra);
     }
 
     public List<ObraDTO> getAllObras() {
-
         List<Obra> obras = obraRepository.findAll();
 
         return obras.parallelStream()

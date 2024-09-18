@@ -1,11 +1,11 @@
 package repository;
 
-import model.MedicaoItem;
-import model.MedicaoItemId;
+import model.Bacia;
+import model.BaciaItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MedicaoItemRepository extends JpaRepository<MedicaoItem, MedicaoItemId> {
+public interface BaciaItemRepository extends JpaRepository<BaciaItem, Long> {
 
 }

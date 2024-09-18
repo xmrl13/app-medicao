@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "itens")
@@ -22,33 +23,10 @@ public class Item {
     @Column
     private String nome;
 
-    @Getter
-    @Setter
-    @Column(precision = 20, scale = 2)
-    private BigDecimal previsto;
-
-    @Getter
-    @Setter
-    @Column(precision = 20, scale =2)
-    private BigDecimal jaMedido;
-
-
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private Set<BaciaItem> baciaItens;
-
-    @Getter
-    @Setter
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<MedicaoItem> medicoesItens;
-
     public Item() {
     }
 
-    public Item(String nome, BigDecimal previsto, BigDecimal jaMedido, Set<BaciaItem> baciaItens, List<MedicaoItem> medicoesItens) {
+    public Item(String nome, BigDecimal previsto, BigDecimal jaMedido, Set<BaciaItem> baciaItens, List<MedicaoBaciaItem> medicoesItens) {
         this.nome = nome;
-        this.previsto = previsto;
-        this.jaMedido = jaMedido;
-        this.baciaItens = baciaItens;
-        this.medicoesItens = medicoesItens;
     }
 }

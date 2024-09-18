@@ -9,13 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+@Setter
 public class CustomUserDetails implements UserDetails {
 
+    @Getter
     private String email;
     private String password;
 
     @Getter
-    @Setter
     private Role role;
 
     public CustomUserDetails(String email, String password, Role role) {
@@ -26,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Retorna o papel do usuário como uma lista de GrantedAuthority
+
         return Collections.singletonList(() -> role.name());
     }
 
@@ -40,24 +41,5 @@ public class CustomUserDetails implements UserDetails {
         return this.email;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
 }

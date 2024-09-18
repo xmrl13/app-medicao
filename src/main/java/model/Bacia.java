@@ -5,9 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
-@Table(name = "bacias")
+@Table(name = "bacias", uniqueConstraints = {@UniqueConstraint(columnNames = {"nome", "contrato_obra"})})
 public class Bacia {
 
     @Getter
@@ -17,21 +18,14 @@ public class Bacia {
 
     @Getter
     @Setter
-    private String nome;
-
-    @OneToMany(mappedBy = "bacia", cascade = CascadeType.ALL)
-    private Set<BaciaItem> baciaItens;
-
-    @Getter
-    @Setter
     @Column(name = "contrato_obra", nullable = false)
     private String  contratoObra;
 
-    public Bacia() {}
+    @Getter
+    @Setter
+    @Column(name = "nome",nullable = false)
+    private String nome;
 
-    public Bacia(String nome, String contratoObra) {
-        this.nome = nome;
-        this.contratoObra = contratoObra;
-    }
+    public Bacia() {}
 
 }

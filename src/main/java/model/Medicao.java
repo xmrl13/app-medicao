@@ -18,9 +18,8 @@ public class Medicao {
 
     @Getter
     @Setter
-    @ManyToOne
-    @JoinColumn(name = "obra_id", nullable = false)
-    private Obra obra;
+    @Column(name = "obra_id", nullable = false)
+    private String obraId;
 
 
     @Getter
@@ -37,8 +36,8 @@ public class Medicao {
     }
 
 
-    public Medicao(Obra obra, LocalDate dataInicio, LocalDate dataFim) {
-        this.obra = obra;
+    public Medicao(String obraId, LocalDate dataInicio, LocalDate dataFim) {
+        this.obraId = obraId;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
     }

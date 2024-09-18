@@ -1,5 +1,7 @@
 package service;
 
+import dto.ItemDTO;
+import jakarta.transaction.Transactional;
 import model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +24,8 @@ public class ItemService {
     }
 
 
+    @Transactional
+    public void createItem(ItemDTO itemDTO) {
+
+    }
 }

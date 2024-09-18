@@ -35,8 +35,8 @@ public class Obra {
 
     @Getter
     @Setter
-    @OneToMany
-    private Set<Pessoa> pessoas = new HashSet<>();
+    @Column(name = "pessoas_id",nullable = true)
+    private Long idPessoa;
 
     public Obra() {
     }

@@ -18,8 +18,8 @@ public class ObraController {
     private ObraService obraService;
 
     @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ObraDTO> criarObra(@RequestBody ObraDTO obraDTO) {
-
         obraService.criarObra(obraDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(obraDTO);
     }
@@ -46,7 +46,4 @@ public class ObraController {
         boolean existe = obraService.obraExistePorContrato(contrato);
         return ResponseEntity.ok(existe);
     }
-
-
-
 }

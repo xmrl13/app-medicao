@@ -43,6 +43,4 @@ public class Pessoa {
         this.password = password;
         this.role = role;
     }
-
-
 }

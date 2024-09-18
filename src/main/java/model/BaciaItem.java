@@ -1,44 +1,51 @@
 package model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "bacia_item")
 public class BaciaItem {
 
     @Getter
-    @EmbeddedId
-    private BaciaItemId id = new BaciaItemId();
+    @Id
+    private Long id;
+
 
     @Getter
     @Setter
-    @ManyToOne
-    @MapsId("baciaId")  // Mapeia o campo baciaId no BaciaItemId
-    @JoinColumn(name = "bacia_id")
-    private Bacia bacia;
+    @Column(name = "bacia_id", unique = true, nullable = false)
+    private Long baciaId;
 
     @Getter
     @Setter
-    @ManyToOne
-    @MapsId("itemId")  // Mapeia o campo itemId no BaciaItemId
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @Column(name = "item_id", nullable = false)
+    private Long itemId;
 
     @Getter
     @Setter
-    @Column(nullable = false)
-    private Integer valorPrevisto;
+    @Column(name = "valor_previsto", precision = 20, scale = 2, nullable = false)
+    private BigDecimal valorPrevisto;
 
+    @Getter
+    @Setter
+    @Column(name = "valor_acumulado", precision = 20, scale = 2, nullable = true)
+    private BigDecimal valorAcumulado;
 
-    public BaciaItem() {}
-
-    public BaciaItem(Bacia bacia, Item item, Integer valorPrevisto) {
-        this.bacia = bacia;
-        this.item = item;
-        this.valorPrevisto = valorPrevisto;
-        this.id = new BaciaItemId(bacia.getId(), item.getId());
+    public BaciaItem() {
     }
 
+    public BaciaItem(Long baciaId, Long itemId, BigDecimal valorPrevisto, BigDecimal valorAcumulado) {
+        this.baciaId = baciaId;
+        this.itemId = itemId;
+        this.valorPrevisto = valorPrevisto;
+        this.valorAcumulado = valorAcumulado;
+    }
 }
+
