@@ -35,16 +35,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String username = jwtTokenProvider.getUsernameFromToken(token);
                 String role = jwtTokenProvider.getRoleFromToken(token);
 
-                // Crie uma lista de GrantedAuthority com a role do usuário
                 List<GrantedAuthority> authorities = Collections.singletonList(() -> role);
 
-                // Crie o objeto de autenticação com username, null (credenciais) e authorities (roles)
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         username, null, authorities);
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // Defina o objeto de autenticação no SecurityContextHolder
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
@@ -57,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7); // Remove "Bearer " para obter o token
+            return bearerToken.substring(7);
         }
         return null;
     }
