@@ -1,16 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 @Entity
-@Table(name = "itens")
+@Table(name = "itens", uniqueConstraints = {@UniqueConstraint(columnNames = {"nome", "unidade_medida"})})
 public class Item {
 
     @Getter
@@ -20,13 +16,21 @@ public class Item {
 
     @Getter
     @Setter
-    @Column
+    @Column(name = "nome", nullable = false)
+    @NotBlank
     private String nome;
+
+    @Getter
+    @Setter
+    @Column(name = "unidade_medida", nullable = false)
+    @NotBlank
+    private String unidadeMedida;
 
     public Item() {
     }
 
-    public Item(String nome, BigDecimal previsto, BigDecimal jaMedido, Set<BaciaItem> baciaItens, List<MedicaoBaciaItem> medicoesItens) {
+    public Item(String nome, String unidadeMedida) {
         this.nome = nome;
+        this.unidadeMedida = unidadeMedida;
     }
 }

@@ -2,6 +2,8 @@ package model;
 
 import enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,16 +19,20 @@ public class Pessoa {
     @Setter
     @Getter
     @Column(nullable = false)
+    @NotBlank
     private String nome;
 
     @Getter
     @Setter
     @Column(nullable = false, unique = true)
+    @NotBlank
+    @Email
     private String email;
 
     @Getter
     @Setter
     @Column(nullable = false)
+    @NotBlank
     private String password;
 
     @Getter

@@ -1,6 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +22,13 @@ public class Obra {
     @Getter
     @Setter
     @Column(nullable = false)
+    @NotBlank
     private String nome;
 
     @Getter
     @Setter
     @Column(unique = true, nullable = false)
+    @NotBlank
     private String contrato;
 
     @Getter

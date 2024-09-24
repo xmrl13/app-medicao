@@ -2,7 +2,6 @@ package service;
 
 import dto.BaciaDTO;
 import model.Bacia;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.BaciaRepository;
@@ -17,16 +16,16 @@ public class BaciaService {
     }
 
     @Transactional
-    public void criarBacia(BaciaDTO baciaDTO) {
+    public BaciaDTO criarBacia(BaciaDTO baciaDTO) {
 
-        try {
-            Bacia novaBacia = new Bacia();
-            novaBacia.setNome(baciaDTO.getNome());
-            novaBacia.setContratoObra(baciaDTO.getContratoObra());
-            baciaRepository.save(novaBacia);
-        } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Bacia com o nome " + baciaDTO.getNome() +
-                    " já existe para o contrato " + baciaDTO.getContratoObra());
-        }
+        baciaRepository.findByNomeAndContratoObra(baciaDTO.getNome(), baciaDTO.getContratoObra()).ifPresent(bacia -> {
+            throw new IllegalArgumentException(String.format("A bacia: %s já existe para o contrato: %s", baciaDTO.getNome(), baciaDTO.getContratoObra()));
+        });
+
+        Bacia baciaSalva = new Bacia(baciaDTO.getNome(), baciaDTO.getContratoObra());
+        baciaRepository.save(baciaSalva);
+        return new BaciaDTO(baciaSalva.getNome(), baciaSalva.getContratoObra());
     }
+
+
 }

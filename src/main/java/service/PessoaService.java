@@ -2,7 +2,10 @@ package service;
 
 import dto.PessoaRequestDTO;
 import dto.PessoaResponseDTO;
+import jakarta.transaction.Transactional;
 import model.Pessoa;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import repository.PessoaRepository;
@@ -13,28 +16,38 @@ public class PessoaService {
     private final PessoaRepository pessoaRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     public PessoaService(PessoaRepository pessoaRepository, PasswordEncoder passwordEncoder) {
         this.pessoaRepository = pessoaRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public PessoaResponseDTO criarOuAtualizarPessoa(PessoaRequestDTO pessoaRequestDTO) {
+    @Transactional
+    public ResponseEntity<?> createPessoa(PessoaRequestDTO pessoaRequestDTO) {
+
+        pessoaRepository.findByEmail(pessoaRequestDTO.getEmail()).ifPresent(pessoa -> {
+            throw new IllegalArgumentException("Email já cadastrado.");
+        });
+
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(pessoaRequestDTO.getNome());
         pessoa.setEmail(pessoaRequestDTO.getEmail());
 
-        // Verifique se a senha não está nula
-        if (pessoaRequestDTO.getPassword() != null) {
-            // Criptografar a senha antes de salvar
-            String senhaCriptografada = passwordEncoder.encode(pessoaRequestDTO.getPassword());
-            pessoa.setPassword(senhaCriptografada);
-        } else {
-            throw new IllegalArgumentException("Senha não pode ser nula");
-        }
-
+        String senhaCriptografada = passwordEncoder.encode(pessoaRequestDTO.getPassword());
+        pessoa.setPassword(senhaCriptografada);
         pessoa.setRole(pessoaRequestDTO.getRole());
 
+
         Pessoa pessoaSalva = pessoaRepository.save(pessoa);
-        return new PessoaResponseDTO(pessoaSalva.getNome(), pessoaSalva.getEmail(), pessoaSalva.getRole());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Transactional
+    public ResponseEntity<?> deleteByEmail(String email) {
+        pessoaRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada com o e-mail: " + email));
+
+        pessoaRepository.deleteByEmail(email);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

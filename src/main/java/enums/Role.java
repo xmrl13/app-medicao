@@ -1,6 +1,17 @@
 package enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
+
+    ADMIN("ROLE_ADMIN"){
+        @Override
+        public String getDescricao() {
+            return "Admin";
+        }
+    },
+
     TECNICO("ROLE_TECNICO") {
         @Override
         public String getDescricao() {
@@ -32,11 +43,6 @@ public enum Role {
         this.roleName = roleName;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    // Método abstrato que será implementado por cada constante
     public abstract String getDescricao();
 
     public static Role fromRoleName(String roleName) {

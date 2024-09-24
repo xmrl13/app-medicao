@@ -1,11 +1,9 @@
 package model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "bacias", uniqueConstraints = {@UniqueConstraint(columnNames = {"nome", "contrato_obra"})})
@@ -18,14 +16,21 @@ public class Bacia {
 
     @Getter
     @Setter
-    @Column(name = "contrato_obra", nullable = false)
-    private String  contratoObra;
+    @Column(name = "nome", nullable = false)
+    @NotBlank
+    private String nome;
 
     @Getter
     @Setter
-    @Column(name = "nome",nullable = false)
-    private String nome;
+    @Column(name = "contrato_obra", nullable = false)
+    @NotBlank
+    private String contratoObra;
 
-    public Bacia() {}
+    public Bacia() {
+    }
 
+    public Bacia(String nome, String contratoObra) {
+        this.nome = nome;
+        this.contratoObra = contratoObra;
+    }
 }

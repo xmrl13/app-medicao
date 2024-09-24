@@ -1,24 +1,38 @@
 package dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
+@Setter
+@Getter
 public class MedicaoDTO {
 
-    private Long medicaoId;
+    @Getter
+    @Setter
+    @NotBlank
+    private String contratoObra;
+
+    @NotNull
+    private LocalDate dataInicio;
+
+    @NotNull
+    private LocalDate dataFim;
+
+    @NotNull
+    private YearMonth competencia;
+
     private List<MedicaoItemDTO> itensMedidos;
 
-    public Long getMedicaoId() {
-        return medicaoId;
-    }
-
-    public List<MedicaoItemDTO> getItensMedidos() {
-        return itensMedidos;
-    }
-
-    public void setItensMedidos(List<MedicaoItemDTO> itensMedidos) {
-        this.itensMedidos = itensMedidos;
+    public MedicaoDTO(String contratoObra, LocalDate dataInicio, LocalDate dataFim, YearMonth competencia) {
+        this.contratoObra = contratoObra;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.competencia = competencia;
     }
 }

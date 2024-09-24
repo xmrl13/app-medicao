@@ -4,7 +4,6 @@ import enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
 @Getter
 @Setter
 public class PessoaResponseDTO {
@@ -13,14 +12,11 @@ public class PessoaResponseDTO {
     private String email;
     private Role role;
 
-    public PessoaResponseDTO() {}
-
-    public PessoaResponseDTO( String nome, String email, Role role) {
+    public PessoaResponseDTO(String nome, String email, Role role) {
         this.nome = nome;
         this.email = email;
         this.role = role;
     }
-
 
 
 }
