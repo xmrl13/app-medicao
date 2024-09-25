@@ -1,14 +1,16 @@
 package controller;
 
 import dto.EmailDTO;
-import dto.PessoaRequestDTO;
+import dto.PersonRequestDTO;
+import dto.PersonUpdateDTO;
 import jakarta.validation.Valid;
+import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import service.PessoaService;
+import service.PersonService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,24 +21,39 @@ import java.util.Objects;
 public class PessoaController {
 
 
-    private final PessoaService pessoaService;
+    private final PersonService personService;
 
-    public PessoaController(PessoaService pessoaService) {
-        this.pessoaService = pessoaService;
+    public PessoaController(PersonService personService) {
+        this.personService = personService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPessoa(@Valid @RequestBody PessoaRequestDTO pessoaRequestDTO) {
-        pessoaService.createPessoa(pessoaRequestDTO);
+    public ResponseEntity<?> createPessoa(@Valid @RequestBody PersonRequestDTO personRequestDTO) {
+        personService.createPerson(personRequestDTO);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/deleteByEmail")
+    @PostMapping("/deletebyemail")
     public ResponseEntity<?> deleteByEmail(@Valid @RequestBody EmailDTO emailDTO) {
 
-        pessoaService.deleteByEmail(emailDTO.getEmail());
+        personService.deleteByEmail(emailDTO.getEmail());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updatePerson(@Valid @RequestBody PersonUpdateDTO personUpdateDTO) {
+
+        personService.updatePerson(personUpdateDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/read")
+    public ResponseEntity<?> find(@RequestParam("email") String email) throws ResourceNotFoundException {
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setEmail(email);
+        return ResponseEntity.ok().body(personService.readByEmail(emailDTO));
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -47,6 +64,11 @@ public class PessoaController {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> resourceNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

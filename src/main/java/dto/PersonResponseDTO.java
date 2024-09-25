@@ -6,14 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PessoaResponseDTO {
+public class PersonResponseDTO {
 
-    private String nome;
+    private String name;
     private String email;
     private Role role;
 
-    public PessoaResponseDTO(String nome, String email, Role role) {
-        this.nome = nome;
+    public PersonResponseDTO(String name, String email, Role role) {
+        this.name = name;
         this.email = email;
         this.role = role;
     }

@@ -12,7 +12,7 @@ import security.service.CustomUserDetailsService;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("api/auth")
 public class AuthController {
 
     private final CustomUserDetailsService customUserDetailsService;

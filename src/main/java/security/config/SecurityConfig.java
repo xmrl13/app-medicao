@@ -37,9 +37,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/get/teste", "/index.html", "/css/**", "/js/**", "/images/**", "/api/pessoas/create").permitAll()
-                        .requestMatchers("/api/obras/create", "/api/bacias/create", "/api/pessoas/create").hasAuthority(COORDENADOR_ROLE)
-                        .requestMatchers("/api/**", "api/itens/create").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers("/api/auth/**", "/api/get/teste", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/api/obras/create", "/api/bacias/create", "/api/pessoas/create").hasAnyAuthority(COORDENADOR_ROLE, ADMIN_ROLE)
+                        .requestMatchers("/api/**").hasAuthority(ADMIN_ROLE)
                         .anyRequest().authenticated()).exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler())
                         .authenticationEntryPoint(new Http403ForbiddenEntryPoint()))

@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public enum Role {
 
-    ADMIN("ROLE_ADMIN"){
+    ADMIN("ROLE_ADMIN") {
         @Override
         public String getDescricao() {
-            return "Admin";
+            return "Acesso total ";
         }
     },
 

@@ -34,15 +34,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             String token = getJwtFromRequest(request);
-
-            if (token == null) {
-                throw new JwtException("Você precisa enviar o token de autenticação");
-            }
-
-            if (jwtTokenProvider.validateToken(token)) {
+            if (token != null && jwtTokenProvider.validateToken(token)) {
                 String username = jwtTokenProvider.getUsernameFromToken(token);
                 String role = jwtTokenProvider.getRoleFromToken(token);
 
+                System.out.println("Username do token: " + username);
+                System.out.println("Role do token: " + role);
                 List<GrantedAuthority> authorities = Collections.singletonList(() -> role);
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
