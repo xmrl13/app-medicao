@@ -10,34 +10,29 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Getter
 @Entity
 @Table(name = "bacia_item")
 public class BaciaItem {
 
-    @Getter
     @Id
     private Long id;
 
-
-    @Getter
     @Setter
     @Column(name = "bacia_id", unique = true, nullable = false)
     @NotBlank
     private Long baciaId;
 
-    @Getter
     @Setter
     @Column(name = "item_id", nullable = false)
     @NotBlank
     private Long itemId;
 
-    @Getter
     @Setter
     @Column(name = "valor_previsto", precision = 20, scale = 2, nullable = false)
     @NotBlank
     private BigDecimal valorPrevisto;
 
-    @Getter
     @Setter
     @Column(name = "valor_acumulado", precision = 20, scale = 2, nullable = true)
     private BigDecimal valorAcumulado;

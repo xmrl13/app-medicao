@@ -6,10 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "obras")
@@ -38,7 +34,7 @@ public class Obra {
 
     @Getter
     @Setter
-    @Column(name = "pessoas_id",nullable = true)
+    @Column(name = "pessoas_id")
     private Long idPessoa;
 
     public Obra() {

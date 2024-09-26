@@ -38,8 +38,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/api/get/teste", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/api/obras/create", "/api/bacias/create", "/api/pessoas/create").hasAnyAuthority(COORDENADOR_ROLE, ADMIN_ROLE)
-                        .requestMatchers("/api/**").hasAuthority(ADMIN_ROLE)
                         .anyRequest().authenticated()).exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler())
                         .authenticationEntryPoint(new Http403ForbiddenEntryPoint()))

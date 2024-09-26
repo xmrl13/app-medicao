@@ -4,13 +4,11 @@ import enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
-
 
 @Getter
 @Entity
@@ -42,7 +40,6 @@ public class Person {
     @Column(nullable = false)
     private Role role;
 
-
     @Setter
     @Getter
     @NotBlank
@@ -50,9 +47,9 @@ public class Person {
     @Column(nullable = false, name = "secret_phrase")
     private String secretPhrase;
 
+    public Person() {
+    }
 
-    public Person() {}
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

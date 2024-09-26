@@ -4,13 +4,16 @@ import dto.EmailDTO;
 import dto.PersonRequestDTO;
 import dto.PersonResponseDTO;
 import dto.PersonUpdateDTO;
+import enums.Role;
 import exceptions.EmailAlreadyExistsException;
 import exceptions.PersonNotFoundException;
+import exceptions.UnauthorizedException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import model.Person;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import repository.PersonRepository;
@@ -30,25 +33,32 @@ public class PersonService {
     @Transactional
     public ResponseEntity<?> createPerson(@Valid PersonRequestDTO personRequestDTO) {
 
-        if (personRepository.findByEmail(personRequestDTO.getEmail()).isPresent()) {
-            throw new EmailAlreadyExistsException("Email já cadastrado");
+        Role role = (Role) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (role.canCreateUser()) {
+            if (personRepository.findByEmail(personRequestDTO.getEmail()).isPresent()) {
+                throw new EmailAlreadyExistsException("Email já cadastrado");
+            }
+
+            Person person = new Person();
+            person.setNome(personRequestDTO.getName());
+            person.setEmail(personRequestDTO.getEmail());
+            person.setRole(personRequestDTO.getRole());
+
+            String hashedPassword = passwordEncoder.encode(personRequestDTO.getPassword());
+            person.setPassword(hashedPassword);
+
+            String hashedPhrase = passwordEncoder.encode(personRequestDTO.getSecretPhrase());
+            person.setSecretPhrase(hashedPhrase);
+
+
+            personRepository.save(person);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         }
-
-        Person person = new Person();
-        person.setNome(personRequestDTO.getName());
-        person.setEmail(personRequestDTO.getEmail());
-        person.setRole(personRequestDTO.getRole());
-
-        String hashedPassword = passwordEncoder.encode(personRequestDTO.getPassword());
-        person.setPassword(hashedPassword);
-
-        String hashedPhrase = passwordEncoder.encode(personRequestDTO.getSecretPhrase());
-        person.setSecretPhrase(hashedPhrase);
-
-
-        personRepository.save(person);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        else {throw new UnauthorizedException("Você não tem permissão para criar usuários.");
+        }
     }
+
 
     @Transactional
     public ResponseEntity<?> deleteByEmail(String email) {
