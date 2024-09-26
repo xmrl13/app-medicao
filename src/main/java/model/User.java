@@ -12,8 +12,8 @@ import java.util.Objects;
 
 @Getter
 @Entity
-@Table(name = "pessoas")
-public class Person {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,15 +47,15 @@ public class Person {
     @Column(nullable = false, name = "secret_phrase")
     private String secretPhrase;
 
-    public Person() {
+    public User() {
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return Objects.equals(email, person.email);
+        User user = (User) o;
+        return Objects.equals(email, user.email);
     }
 
     @Override

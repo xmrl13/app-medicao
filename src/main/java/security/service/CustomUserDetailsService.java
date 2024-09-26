@@ -1,6 +1,6 @@
 package security.service;
 
-import model.Person;
+import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import repository.PersonRepository;
+import repository.UserRepository;
 import security.auth.AuthRequest;
 import security.auth.AuthResponse;
 import security.jwt.JwtTokenProvider;
@@ -22,7 +22,7 @@ import security.model.CustomUserDetails;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private PersonRepository personRepository;
+    private UserRepository userRepository;
     @Autowired
     @Lazy
     private AuthenticationManager authenticationManager;
@@ -32,11 +32,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Person person = personRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new BadCredentialsException(""));
-        System.out.println("Carregando usuário: " + person.getEmail());
-        System.out.println("Role do usuário: " + person.getRole());
-        return new CustomUserDetails(person.getEmail(), person.getPassword(), person.getRole());
+        System.out.println("Carregando usuário: " + user.getEmail());
+        System.out.println("Role do usuário: " + user.getRole());
+        return new CustomUserDetails(user.getEmail(), user.getPassword(), user.getRole());
     }
 
     public AuthResponse login(AuthRequest authRequest) {

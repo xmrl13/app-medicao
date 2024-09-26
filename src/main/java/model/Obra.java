@@ -34,8 +34,8 @@ public class Obra {
 
     @Getter
     @Setter
-    @Column(name = "pessoas_id")
-    private Long idPessoa;
+    @Column(name = "users_id")
+    private Long userId;
 
     public Obra() {
     }

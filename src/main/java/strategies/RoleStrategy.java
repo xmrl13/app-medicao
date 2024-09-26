@@ -8,4 +8,6 @@ public interface RoleStrategy {
     boolean canDeleteWork();
     boolean canViewItems();
     boolean canCreateUser();
+    boolean canDeleteUser();
+    boolean canReadUser();
 }

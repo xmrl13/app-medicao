@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PersonRequestDTO {
+public class UserRequestDTO {
 
     @NotNull
     @NotBlank(message = "O nome não pode ser nulo")

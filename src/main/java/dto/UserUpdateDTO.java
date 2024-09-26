@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class PersonUpdateDTO {
+public class UserUpdateDTO {
 
     @Setter
     @Nullable

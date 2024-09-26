@@ -32,4 +32,14 @@ public class EngineerRoleStrategy implements RoleStrategy {
         return false;
     }
 
+    @Override
+    public boolean canDeleteUser() {
+        return false;
+    }
+
+    @Override
+    public boolean canReadUser() {
+        return false;
+    }
+
 }

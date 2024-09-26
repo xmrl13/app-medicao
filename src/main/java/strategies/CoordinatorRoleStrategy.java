@@ -33,4 +33,14 @@ public class CoordinatorRoleStrategy implements RoleStrategy {
         return true;
     }
 
+    @Override
+    public boolean canDeleteUser() {
+        return true;
+    }
+
+    @Override
+    public boolean canReadUser() {
+        return true;
+    }
+
 }

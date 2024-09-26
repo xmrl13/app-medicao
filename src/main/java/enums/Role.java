@@ -41,4 +41,12 @@ public enum Role {
     public boolean canCreateUser() {
         return strategy.canCreateUser();
     }
+
+    public boolean canDeleteUser() {
+        return strategy.canDeleteUser();
+    }
+
+    public boolean canReadUser() {
+        return strategy.canReadUser();
+    }
 }

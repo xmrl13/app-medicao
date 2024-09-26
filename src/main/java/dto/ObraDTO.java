@@ -21,7 +21,7 @@ public class ObraDTO {
     @DecimalMin(value = "0.0", inclusive = false, message = "O orçamento deve ser maior que zero.")
     private BigDecimal orcamento;
 
-    private Long pessoaId;
+    private Long userId;
 
     public ObraDTO() {
     }
