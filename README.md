@@ -12,7 +12,7 @@ Este projeto é uma aplicação de gestão de medições em obras, permitindo o 
 
 ## Tecnologias Utilizadas
 
-- Java 17
+- Java 21
 - Spring Boot 3.3.3
 - Spring Security
 - Spring Data JPA
